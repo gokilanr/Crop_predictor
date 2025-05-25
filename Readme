@@ -6,4 +6,4 @@ N – Nitrogen content in the soil (in mg/kg) P – Phosphorus content in the so
 
 label – The crop most suited to the given conditions (e.g., rice, maize, cotton, etc.)
 
-FLASK, and render cloud used to deploy.
+Website created by sing html, CSS, flask, and render cloud used to deploy.

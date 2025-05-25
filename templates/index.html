@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crop Prediction & Analysis</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        :root {
+            --bg-left: #f0fdf4;
+            --bg-right: #f9fffa;
+            --text-color: #2d6a4f;
+            --card-bg: #fff;
+            --result-bg: #d8f3dc;
+            --gap: 1rem;
+        }
+        body.dark-mode {
+            --bg-left: #1e1e1e;
+            --bg-right: #2b2b2b;
+            --text-color: #90ee90;
+            --card-bg: #333;
+            --result-bg: #294936;
+        }
+        body.grey-mode {
+            --bg-left: #eeeeee;
+            --bg-right: #f5f5f5;
+            --text-color: #333;
+            --card-bg: #ddd;
+            --result-bg: #cfd8dc;
+        }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--bg-right);
+            color: var(--text-color);
+        }
+        .left {
+            flex: 0 0 320px;
+            padding: 2rem;
+            background-color: var(--bg-left);
+            border-right: 2px solid #cce3dc;
+            overflow-y: auto;
+        }
+        .right {
+            flex: 1;
+            padding: 2rem;
+            background-color: var(--bg-right);
+            overflow-y: auto;
+        }
+        /* 3-column grid filling full width */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--gap);
+        }
+        .card {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input, button, select {
+            width: 100%;
+            margin: 0.5rem 0;
+            padding: 0.7rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #2d6a4f;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .left h2 {
+            color: var(--text-color);
+            margin-top: 0;
+        }
+        .right h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: var(--gap);
+        }
+        img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: block;
+        }
+        .result {
+            background: var(--result-bg);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 5px solid var(--text-color);
+        }
+        h4 {
+            color: var(--text-color);
+            margin: 0 0 0.5rem 0;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function switchTheme(theme) {
+            document.body.className = theme;
+        }
+    </script>
+</head>
+<body>
+<div class="left">
+    <h2>🌿 Crop Prediction</h2>
+    <label for="theme">Choose Theme:</label>
+    <select id="theme" onchange="switchTheme(this.value)">
+        <option value="">Light</option>
+        <option value="dark-mode">Dark</option>
+        <option value="grey-mode">Grey</option>
+    </select>
+    <form method="POST">
+        {% for field in ['N','P','K','temperature','humidity','ph','rainfall'] %}
+            <input name="{{ field }}" placeholder="{{ field | capitalize }}" required>
+        {% endfor %}
+        <button type="submit">Predict</button>
+    </form>
+    {% if prediction %}
+        <div class="result">
+            ✅ Recommended Crop: <strong>{{ prediction.upper() }}</strong>
+        </div>
+    {% endif %}
+</div>
+<div class="right">
+    <h2>📊 Data Analysis</h2>
+    <div class="grid">
+        {% for title, chart in plots %}
+            <div class="card">
+                <h4>{{ title }}</h4>
+                <img src="data:image/png;base64,{{ chart }}" alt="{{ title }} Chart">
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

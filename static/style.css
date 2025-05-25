@@ -1,0 +1,40 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 370px;
+}
+
+img {
+    width: 100%;
+    max-height: 320px;
+    min-height: 200px;
+    object-fit: contain;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.left {
+    flex: 0 0 320px;
+    padding: 2rem;
+    background-color: var(--bg-left);
+    border-right: 2px solid #cce3dc;
+    overflow-y: auto;
+    /* Make sticky! */
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
